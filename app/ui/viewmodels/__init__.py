@@ -1,1 +1,1 @@
-"""View model package for UI state and commands.""
+"""View model package for UI state and commands."""

@@ -10,18 +10,6 @@ class DashboardViewModel:
     def get_world_count(self) -> int:
         return len(self.persistence_service.list_worlds())
 
-from __future__ import annotations
-
-from app.core.services.persistence_service import PersistenceService
-
-
-class DashboardViewModel:
-    def __init__(self, persistence_service: PersistenceService):
-        self.persistence_service = persistence_service
-
-    def get_world_count(self) -> int:
-        return len(self.persistence_service.list_worlds())
-
     def get_summary(self) -> str:
         world_count = self.get_world_count()
         if world_count == 0:
