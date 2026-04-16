@@ -2,7 +2,9 @@
 name = "dnd-world-sim"
 version = "0.1.0"
 description = "Desktop application for Dungeons & Dragons world simulation and settlement generation."
-authors = ["DM Tools <dm-tools@example.com>"]
+authors = [
+    { name = "DM Tools", email = "dm-tools@example.com" }
+]
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -13,10 +15,15 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-[project.dependencies]
-PySide6 = "^6.7"
-reportlab = "^4.0"
+dependencies = [
+    "PySide6>=6.7",
+    "reportlab>=4.0",
+]
 
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+exclude = ["data_test4*", "tests*"]

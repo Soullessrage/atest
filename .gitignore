@@ -9,4 +9,5 @@ dist/
 *.egg-info/
 world_sim.db
 *.db
+data_test4/
 .DS_Store
