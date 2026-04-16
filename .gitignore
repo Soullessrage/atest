@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+build/
+dist/
+*.egg-info/
+world_sim.db
+*.db
+.DS_Store
