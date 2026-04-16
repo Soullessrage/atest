@@ -1,0 +1,33 @@
+{
+  "package_type": "world",
+  "version": 1,
+  "payload": {
+    "world": {
+      "id": "df23ae3f-5092-4abf-8ab4-0dc1f62c8619",
+      "name": "New Campaign World",
+      "description": "A fresh world generated for campaign building.",
+      "created_at": "2026-04-16T06:09:00.206511",
+      "updated_at": "2026-04-16T06:09:00.206521",
+      "locked": 0,
+      "metadata": {},
+      "continents": null,
+      "empires": null,
+      "kingdoms": null,
+      "regions": null,
+      "settlements": null,
+      "npc_ids": null,
+      "event_ids": null,
+      "rule_set_id": null
+    },
+    "continents": [],
+    "empires": [],
+    "kingdoms": [],
+    "regions": [],
+    "settlements": [],
+    "npcs": [],
+    "relationships": [],
+    "routes": [],
+    "event_definitions": [],
+    "event_instances": []
+  }
+}

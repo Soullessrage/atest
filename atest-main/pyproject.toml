@@ -1,0 +1,30 @@
+[project]
+name = "dnd-world-sim"
+version = "0.1.0"
+description = "Desktop application for Dungeons & Dragons world simulation and settlement generation."
+authors = [
+    { name = "Soullessrage" }
+]
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+keywords = ["dnd", "world", "simulation", "pyside6", "sqlite", "pdf"]
+classifiers = [
+    "Framework :: Qt",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "PySide6>=6.7",
+    "reportlab>=4.0"
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# ⭐ ADD THIS SECTION
+[tool.setuptools.packages.find]
+include = ["app*"]
+exclude = ["data*"]
