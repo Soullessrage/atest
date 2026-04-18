@@ -18,7 +18,15 @@ CREATE TABLE IF NOT EXISTS worlds (
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL,
     locked INTEGER NOT NULL DEFAULT 0,
-    metadata TEXT DEFAULT '{}'
+    metadata TEXT DEFAULT '{}',
+    continents TEXT DEFAULT '[]',
+    empires TEXT DEFAULT '[]',
+    kingdoms TEXT DEFAULT '[]',
+    regions TEXT DEFAULT '[]',
+    settlements TEXT DEFAULT '[]',
+    npc_ids TEXT DEFAULT '[]',
+    event_ids TEXT DEFAULT '[]',
+    rule_set_id TEXT
 );
 
 CREATE TABLE IF NOT EXISTS continents (
@@ -30,6 +38,10 @@ CREATE TABLE IF NOT EXISTS continents (
     updated_at TEXT NOT NULL,
     locked INTEGER NOT NULL DEFAULT 0,
     metadata TEXT DEFAULT '{}',
+    empire_ids TEXT DEFAULT '[]',
+    kingdom_ids TEXT DEFAULT '[]',
+    region_ids TEXT DEFAULT '[]',
+    settlement_ids TEXT DEFAULT '[]',
     FOREIGN KEY(world_id) REFERENCES worlds(id) ON DELETE CASCADE
 );
 
@@ -44,6 +56,7 @@ CREATE TABLE IF NOT EXISTS empires (
     updated_at TEXT NOT NULL,
     locked INTEGER NOT NULL DEFAULT 0,
     metadata TEXT DEFAULT '{}',
+    kingdom_ids TEXT DEFAULT '[]',
     FOREIGN KEY(world_id) REFERENCES worlds(id) ON DELETE CASCADE,
     FOREIGN KEY(continent_id) REFERENCES continents(id) ON DELETE SET NULL
 );
@@ -60,6 +73,7 @@ CREATE TABLE IF NOT EXISTS kingdoms (
     updated_at TEXT NOT NULL,
     locked INTEGER NOT NULL DEFAULT 0,
     metadata TEXT DEFAULT '{}',
+    region_ids TEXT DEFAULT '[]',
     FOREIGN KEY(world_id) REFERENCES worlds(id) ON DELETE CASCADE,
     FOREIGN KEY(continent_id) REFERENCES continents(id) ON DELETE SET NULL,
     FOREIGN KEY(empire_id) REFERENCES empires(id) ON DELETE SET NULL
@@ -77,6 +91,8 @@ CREATE TABLE IF NOT EXISTS regions (
     updated_at TEXT NOT NULL,
     locked INTEGER NOT NULL DEFAULT 0,
     metadata TEXT DEFAULT '{}',
+    settlement_ids TEXT DEFAULT '[]',
+    point_of_interest_ids TEXT DEFAULT '[]',
     FOREIGN KEY(world_id) REFERENCES worlds(id) ON DELETE CASCADE,
     FOREIGN KEY(continent_id) REFERENCES continents(id) ON DELETE SET NULL,
     FOREIGN KEY(empire_id) REFERENCES empires(id) ON DELETE SET NULL,
@@ -100,6 +116,8 @@ CREATE TABLE IF NOT EXISTS settlement_nodes (
     updated_at TEXT NOT NULL,
     locked INTEGER NOT NULL DEFAULT 0,
     metadata TEXT DEFAULT '{}',
+    connected_routes TEXT DEFAULT '[]',
+    tags TEXT DEFAULT '[]',
     FOREIGN KEY(world_id) REFERENCES worlds(id) ON DELETE CASCADE,
     FOREIGN KEY(continent_id) REFERENCES continents(id) ON DELETE SET NULL,
     FOREIGN KEY(empire_id) REFERENCES empires(id) ON DELETE SET NULL,
@@ -185,6 +203,20 @@ CREATE TABLE IF NOT EXISTS relationships (
     locked INTEGER NOT NULL DEFAULT 0,
     metadata TEXT DEFAULT '{}',
     FOREIGN KEY(world_id) REFERENCES worlds(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS races (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    cultural_tags TEXT DEFAULT '[]',
+    lifespan INTEGER,
+    preferred_occupations TEXT DEFAULT '[]',
+    settlement_preferences TEXT DEFAULT '[]',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    locked INTEGER NOT NULL DEFAULT 0,
+    metadata TEXT DEFAULT '{}'
 );
 
 CREATE TABLE IF NOT EXISTS event_definitions (

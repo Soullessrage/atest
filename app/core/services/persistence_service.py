@@ -10,6 +10,7 @@ from app.data.repositories import (
     EventInstanceRepository,
     KingdomRepository,
     NPCRepository,
+    RaceRepository,
     RelationshipRepository,
     RegionRepository,
     RouteRepository,
@@ -39,6 +40,7 @@ class PersistenceService:
         self.region_repository = RegionRepository(conn)
         self.settlement_repository = SettlementRepository(conn)
         self.npc_repository = NPCRepository(conn)
+        self.race_repository = RaceRepository(conn)
         self.relationship_repository = RelationshipRepository(conn)
         self.route_repository = RouteRepository(conn)
         self.event_definition_repository = EventDefinitionRepository(conn)

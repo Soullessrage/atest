@@ -31,3 +31,19 @@ A long-term desktop application for procedural Dungeons & Dragons world creation
 2. Expand JSON export/import to include full hierarchical world state.
 3. Implement snapshot creation and restore via persisted state packages.
 4. Add dashboard and navigation UI pages in the desktop shell.
+
+## Phase 4: World Simulation and Dynamics
+
+1. Implement NPC lifecycle management (aging, birth, death).
+2. Add population dynamics and settlement growth.
+3. Create relationship dynamics and decay systems.
+4. Build simulation runner with configurable time periods.
+5. Integrate simulation with persistence layer.
+
+## Phase 5: Simulation UI Integration
+
+1. Create SimulationViewModel for UI state management.
+2. Build SimulationPage with world selection and controls.
+3. Add simulation results display with population stats and event logs.
+4. Implement simulation history and progress tracking.
+5. Integrate simulation controls into main application navigation.

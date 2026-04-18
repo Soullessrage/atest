@@ -23,8 +23,10 @@ class SettlementRepository(SqliteRepository):
             "updated_at",
             "locked",
             "metadata",
+            "connected_routes",
+            "tags",
         )
-        super().__init__(conn, "settlement_nodes", SettlementNode, table_fields, json_fields=("location", "housing_summary", "metadata"))
+        super().__init__(conn, "settlement_nodes", SettlementNode, table_fields, json_fields=("location", "housing_summary", "metadata", "connected_routes", "tags"))
 
     def list_by_world(self, world_id: str) -> list[SettlementNode]:
         rows = self.conn.execute("SELECT * FROM settlement_nodes WHERE world_id = ?", (world_id,)).fetchall()

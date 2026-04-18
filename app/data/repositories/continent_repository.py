@@ -15,8 +15,12 @@ class ContinentRepository(SqliteRepository):
             "updated_at",
             "locked",
             "metadata",
+            "empire_ids",
+            "kingdom_ids",
+            "region_ids",
+            "settlement_ids",
         )
-        super().__init__(conn, "continents", Continent, table_fields, json_fields=("metadata",))
+        super().__init__(conn, "continents", Continent, table_fields, json_fields=("metadata", "empire_ids", "kingdom_ids", "region_ids", "settlement_ids"))
 
     def list_by_world(self, world_id: str) -> list[Continent]:
         rows = self.conn.execute("SELECT * FROM continents WHERE world_id = ?", (world_id,)).fetchall()

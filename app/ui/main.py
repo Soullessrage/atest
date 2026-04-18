@@ -18,12 +18,14 @@ from app.ui.viewmodels.world_hierarchy_viewmodel import WorldHierarchyViewModel
 from app.ui.viewmodels.world_viewmodel import WorldOverviewViewModel
 from app.ui.viewmodels.map_viewmodel import MapViewModel
 from app.ui.viewmodels.snapshot_viewmodel import SnapshotViewModel
+from app.ui.viewmodels.simulation_viewmodel import SimulationViewModel
 from app.ui.views.dashboard import DashboardPage
 from app.ui.views.map_view import MapViewPage
 from app.ui.views.snapshots import SnapshotPage
 from app.ui.views.world_generator import WorldGeneratorPage
 from app.ui.views.world_hierarchy import WorldHierarchyPage
 from app.ui.views.world_overview import WorldOverviewPage
+from app.ui.views.simulation import SimulationPage
 
 
 class WorldSimMainWindow(QMainWindow):
@@ -93,6 +95,7 @@ class WorldSimMainWindow(QMainWindow):
             ("🧙‍♂️ Generator", "Generator"),
             ("🌍 Worlds", "Worlds"),
             ("📚 Hierarchy", "Hierarchy"),
+            ("🎲 Simulation", "Simulation"),
             ("🗺️ Map", "Map"),
             ("📸 Snapshots", "Snapshots"),
         ]
@@ -145,6 +148,14 @@ class WorldSimMainWindow(QMainWindow):
                 WorldHierarchyViewModel(
                     persistence_service=self.context.persistence_service,
                     import_export_service=self.context.import_export_service,
+                )
+            )
+        )
+        self.page_stack.addWidget(
+            SimulationPage(
+                SimulationViewModel(
+                    persistence_service=self.context.persistence_service,
+                    simulation_service=self.context.simulation_service,
                 )
             )
         )

@@ -19,18 +19,23 @@ class SimulationService:
         world = self.persistence_service.load_world(world_id)
         if not world:
             raise ValueError(f"World {world_id} not found")
-        runner = SimulationRunner(world)
+        runner = SimulationRunner(world, persistence_service=self.persistence_service)
         return runner.preview(duration)
 
     def advance(self, world_id: str, duration: timedelta) -> Dict[str, object]:
         world = self.persistence_service.load_world(world_id)
         if not world:
             raise ValueError(f"World {world_id} not found")
-        runner = SimulationRunner(world)
+        runner = SimulationRunner(world, persistence_service=self.persistence_service)
         run = runner.advance_time(duration)
         return {
             "world_id": world_id,
-            "duration": duration.total_seconds(),
+            "duration_days": duration.days,
             "event_count": len(run.events),
-            "outcome_summary": "Simulation advanced with event generation and demographic planning.",
+            "npcs_aged": len(run.changes.npc_aged),
+            "npcs_died": len(run.changes.npc_died),
+            "npcs_born": len(run.changes.npc_born),
+            "settlements_grew": len(run.changes.settlements_grew),
+            "settlements_shrunk": len(run.changes.settlements_shrunk),
+            "outcome_summary": "Simulation advanced with NPC aging, deaths, births, and demographic changes.",
         }

@@ -18,8 +18,10 @@ class RegionRepository(SqliteRepository):
             "updated_at",
             "locked",
             "metadata",
+            "settlement_ids",
+            "point_of_interest_ids",
         )
-        super().__init__(conn, "regions", Region, table_fields, json_fields=("metadata",))
+        super().__init__(conn, "regions", Region, table_fields, json_fields=("metadata", "settlement_ids", "point_of_interest_ids"))
 
     def list_by_world(self, world_id: str) -> list[Region]:
         rows = self.conn.execute("SELECT * FROM regions WHERE world_id = ?", (world_id,)).fetchall()

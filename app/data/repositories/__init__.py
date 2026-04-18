@@ -5,6 +5,7 @@ from .empire_repository import EmpireRepository
 from .event_repository import EventDefinitionRepository, EventInstanceRepository
 from .kingdom_repository import KingdomRepository
 from .npc_repository import NPCRepository
+from .race_repository import RaceRepository
 from .relationship_repository import RelationshipRepository
 from .region_repository import RegionRepository
 from .route_repository import RouteRepository
@@ -18,6 +19,7 @@ __all__ = [
     "EventInstanceRepository",
     "KingdomRepository",
     "NPCRepository",
+    "RaceRepository",
     "RelationshipRepository",
     "RegionRepository",
     "RouteRepository",

@@ -17,8 +17,9 @@ class EmpireRepository(SqliteRepository):
             "updated_at",
             "locked",
             "metadata",
+            "kingdom_ids",
         )
-        super().__init__(conn, "empires", Empire, table_fields, json_fields=("metadata",))
+        super().__init__(conn, "empires", Empire, table_fields, json_fields=("metadata", "kingdom_ids"))
 
     def list_by_world(self, world_id: str) -> list[Empire]:
         rows = self.conn.execute("SELECT * FROM empires WHERE world_id = ?", (world_id,)).fetchall()

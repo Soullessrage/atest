@@ -18,8 +18,9 @@ class KingdomRepository(SqliteRepository):
             "updated_at",
             "locked",
             "metadata",
+            "region_ids",
         )
-        super().__init__(conn, "kingdoms", Kingdom, table_fields, json_fields=("metadata",))
+        super().__init__(conn, "kingdoms", Kingdom, table_fields, json_fields=("metadata", "region_ids"))
 
     def list_by_world(self, world_id: str) -> list[Kingdom]:
         rows = self.conn.execute("SELECT * FROM kingdoms WHERE world_id = ?", (world_id,)).fetchall()

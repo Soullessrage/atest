@@ -14,5 +14,13 @@ class WorldRepository(SqliteRepository):
             "updated_at",
             "locked",
             "metadata",
+            "continents",
+            "empires",
+            "kingdoms",
+            "regions",
+            "settlements",
+            "npc_ids",
+            "event_ids",
+            "rule_set_id",
         )
-        super().__init__(conn, "worlds", World, table_fields, json_fields=("metadata",))
+        super().__init__(conn, "worlds", World, table_fields, json_fields=("metadata", "continents", "empires", "kingdoms", "regions", "settlements", "npc_ids", "event_ids"))

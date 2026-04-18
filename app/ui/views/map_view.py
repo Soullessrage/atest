@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from PySide6.QtCore import QPointF, Qt
 from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import (
     QComboBox,
@@ -44,13 +45,13 @@ class MapViewPage(QWidget):
         """)
         header_layout = QVBoxLayout(header_frame)
 
-        title = QLabel("🗺️ World Map")
+        title = QLabel("Map")
         title.setStyleSheet("""
             QLabel {
                 color: #5d4e37;
                 font-size: 28px;
                 font-weight: bold;
-                font-family: "Times New Roman", serif;
+                font-family: 'Times New Roman', serif;
                 margin: 0;
                 text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
             }
@@ -62,7 +63,7 @@ class MapViewPage(QWidget):
             QLabel {
                 color: #8b4513;
                 font-size: 16px;
-                font-family: "Times New Roman", serif;
+                font-family: 'Times New Roman', serif;
                 margin: 0;
             }
         """)
@@ -82,13 +83,13 @@ class MapViewPage(QWidget):
         """)
         controls_layout = QHBoxLayout(controls_frame)
 
-        world_label = QLabel("🌍 Select World:")
+        world_label = QLabel("Select World:")
         world_label.setStyleSheet("""
             QLabel {
                 font-size: 14px;
-                font-wei5d4e37;
-                font-family: "Times New Roman", serifold;
-                color: #2c3e50;
+                font-weight: bold;
+                color: #5d4e37;
+                font-family: 'Times New Roman', serif;
                 margin-right: 10px;
             }
         """)
@@ -96,12 +97,13 @@ class MapViewPage(QWidget):
 
         self.world_selector = QComboBox()
         self.world_selector.setStyleSheet("""
-            QComboBox {2px solid #d4b08a;
+            QComboBox {
+                border: 2px solid #d4b08a;
                 border-radius: 8px;
                 padding: 8px 12px;
                 background-color: #fefcf4;
                 font-size: 14px;
-                font-family: "Times New Roman", serif;
+                font-family: 'Times New Roman', serif;
                 min-width: 200px;
                 color: #5d4e37;
             }
@@ -124,14 +126,25 @@ class MapViewPage(QWidget):
             QComboBox QAbstractItemView {
                 background-color: #fefcf4;
                 border: 1px solid #d4b08a;
-                selection-background4b08a;
+                selection-background-color: #d4b08a;
+                color: #5d4e37;
+                font-family: 'Times New Roman', serif;
+            }
+        """)
+        controls_layout.addWidget(self.world_selector)
+        controls_layout.addStretch()
+
+        self.refresh_button = QPushButton("Refresh Map")
+        self.refresh_button.setStyleSheet("""
+            QPushButton {
+                background-color: #d4b08a;
                 color: #5d4e37;
                 border: 2px solid #8b4513;
                 border-radius: 8px;
                 padding: 10px 20px;
                 font-size: 14px;
                 font-weight: bold;
-                font-family: "Times New Roman", serif;
+                font-family: 'Times New Roman', serif;
             }
             QPushButton:hover {
                 background-color: #b8956a;
@@ -139,18 +152,6 @@ class MapViewPage(QWidget):
             }
             QPushButton:pressed {
                 background-color: #a0784a;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 10px 20px;
-                font-size: 14px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #2980b9;
-            }
-            QPushButton:pressed {
-                background-color: #21618c;
             }
         """)
         controls_layout.addWidget(self.refresh_button)
@@ -158,26 +159,26 @@ class MapViewPage(QWidget):
         layout.addWidget(controls_frame)
 
         map_frame = QFrame()
-        map_frame.setStyleSheet(""#fefcf4;
+        map_frame.setStyleSheet("""
+            QFrame {
+                background-color: #fefcf4;
                 border: 2px solid #d4b08a;
                 border-radius: 12px;
                 padding: 5px;
-                box-shadow: inset 0 2px 4px rgba(0,0,0,0.1)s: 12px;
-                border: 1px solid #e1e5e9;
-                padding: 5px;
+                box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
             }
         """)
         map_layout = QVBoxLayout(map_frame)
 
-        self.scene = QGraphicsScene(self)efcf4")))
+        self.scene = QGraphicsScene(self)
+        self.scene.setBackgroundBrush(QBrush(QColor("#fefcf4")))
 
         self.view = QGraphicsView(self.scene)
         self.view.setStyleSheet("""
             QGraphicsView {
                 border: none;
                 border-radius: 8px;
-                background-color: #fefcf4
-                border-radius: 8px;
+                background-color: #fefcf4;
             }
         """)
         self.view.setRenderHint(self.view.renderHints())
@@ -215,13 +216,13 @@ class MapViewPage(QWidget):
             if not source or not target:
                 continue
             line = QGraphicsLineItem(source.x, source.y, target.x, target.y)
-            line.setPen(QPen(QColor("#666666"), 2))
+            line.setPen(QPen(QColor("#8b4513"), 2))
             self.scene.addItem(line)
 
         for node in graph.nodes.values():
             circle = QGraphicsEllipseItem(node.x - node.size / 2, node.y - node.size / 2, node.size, node.size)
-            circle.setBrush(QBrush(QColor("#0077cc")))
-            circle.setPen(QPen(QColor("#003a66"), 1))
+            circle.setBrush(QBrush(QColor("#8b4513")))
+            circle.setPen(QPen(QColor("#5d4e37"), 2))
             self.scene.addItem(circle)
             label = QGraphicsTextItem(node.label)
             label.setPos(node.x + node.size / 2 + 4, node.y - node.size / 2)
