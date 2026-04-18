@@ -33,29 +33,45 @@ class WorldSimMainWindow(QMainWindow):
         self.setMinimumSize(1400, 900)
         self.setStyleSheet("""
             QMainWindow {
-                background-color: #f5f5f5;
+                background-color: #f4e4bc;
+                background-image: 
+                    radial-gradient(circle at 20% 80%, rgba(101, 67, 33, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 40%, rgba(160, 82, 45, 0.05) 0%, transparent 50%);
             }
             QListWidget {
-                background-color: #2c3e50;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 10px;
-                font-size: 14px;
-                font-weight: 500;
+                background-color: #8b4513;
+                background-image: 
+                    linear-gradient(180deg, #a0522d 0%, #654321 50%, #3d2817 100%),
+                    radial-gradient(circle at 30% 30%, rgba(139, 69, 19, 0.3) 0%, transparent 70%);
+                color: #f4e4bc;
+                border: 2px solid #654321;
+                border-radius: 15px;
+                padding: 15px;
+                font-size: 16px;
+                font-weight: bold;
+                font-family: 'Times New Roman', serif;
+                box-shadow: 
+                    inset 0 0 20px rgba(0, 0, 0, 0.3),
+                    0 0 15px rgba(139, 69, 19, 0.4);
             }
             QListWidget::item {
-                padding: 12px;
-                margin: 2px 0px;
-                border-radius: 6px;
-                background-color: transparent;
+                padding: 15px;
+                margin: 3px 0px;
+                border-radius: 8px;
+                background-color: rgba(139, 69, 19, 0.2);
+                border: 1px solid rgba(101, 67, 33, 0.3);
+                color: #f4e4bc;
             }
             QListWidget::item:selected {
-                background-color: #3498db;
-                color: white;
+                background-color: rgba(222, 184, 135, 0.8);
+                color: #654321;
+                border: 2px solid #daa520;
+                box-shadow: 0 0 8px rgba(218, 165, 32, 0.6);
             }
             QListWidget::item:hover {
-                background-color: #34495e;
+                background-color: rgba(160, 82, 45, 0.4);
+                border: 1px solid rgba(218, 165, 32, 0.5);
             }
         """)
         self._setup_ui()
@@ -90,9 +106,18 @@ class WorldSimMainWindow(QMainWindow):
         self.page_stack = QStackedWidget()
         self.page_stack.setStyleSheet("""
             QStackedWidget {
-                background-color: white;
-                border-radius: 8px;
-                margin: 10px;
+                background-color: #f4e4bc;
+                background-image: 
+                    radial-gradient(circle at 25% 25%, rgba(139, 69, 19, 0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 75% 75%, rgba(160, 82, 45, 0.06) 0%, transparent 50%),
+                    linear-gradient(45deg, transparent 30%, rgba(101, 67, 33, 0.03) 50%, transparent 70%);
+                border: 3px solid #daa520;
+                border-radius: 20px;
+                margin: 15px;
+                box-shadow: 
+                    0 0 30px rgba(139, 69, 19, 0.4),
+                    inset 0 0 20px rgba(0, 0, 0, 0.1);
+                font-family: 'Times New Roman', serif;
             }
         """)
         

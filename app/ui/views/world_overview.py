@@ -36,9 +36,13 @@ class WorldOverviewPage(QWidget):
         header_frame = QFrame()
         header_frame.setStyleSheet("""
             QFrame {
-                background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-                border-radius: 12px;
-                padding: 20px;
+                background: linear-gradient(135deg, #daa520 0%, #cd853f 50%, #a0522d 100%);
+                border: 3px solid #654321;
+                border-radius: 15px;
+                padding: 25px;
+                box-shadow: 
+                    0 0 20px rgba(139, 69, 19, 0.6),
+                    inset 0 0 15px rgba(0, 0, 0, 0.2);
             }
         """)
         header_layout = QVBoxLayout(header_frame)
@@ -46,9 +50,11 @@ class WorldOverviewPage(QWidget):
         title = QLabel("🌍 World Overview")
         title.setStyleSheet("""
             QLabel {
-                color: white;
-                font-size: 28px;
+                color: #f4e4bc;
+                font-size: 32px;
                 font-weight: bold;
+                font-family: 'Times New Roman', serif;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
                 margin: 0;
             }
         """)
@@ -57,8 +63,11 @@ class WorldOverviewPage(QWidget):
         subtitle = QLabel("Manage and explore your fantasy worlds")
         subtitle.setStyleSheet("""
             QLabel {
-                color: rgba(255, 255, 255, 0.8);
-                font-size: 16px;
+                color: rgba(244, 228, 188, 0.9);
+                font-size: 18px;
+                font-family: 'Times New Roman', serif;
+                font-style: italic;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
                 margin: 0;
             }
         """)
@@ -69,10 +78,16 @@ class WorldOverviewPage(QWidget):
         content_frame = QFrame()
         content_frame.setStyleSheet("""
             QFrame {
-                background-color: white;
-                border-radius: 12px;
-                border: 1px solid #e1e5e9;
+                background-color: rgba(244, 228, 188, 0.95);
+                background-image: 
+                    radial-gradient(circle at 25% 25%, rgba(139, 69, 19, 0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 75% 75%, rgba(160, 82, 45, 0.06) 0%, transparent 50%);
+                border: 2px solid #daa520;
+                border-radius: 15px;
                 padding: 20px;
+                box-shadow: 
+                    0 0 15px rgba(139, 69, 19, 0.3),
+                    inset 0 0 10px rgba(0, 0, 0, 0.1);
             }
         """)
         content_layout = QHBoxLayout(content_frame)
@@ -81,22 +96,28 @@ class WorldOverviewPage(QWidget):
         self.world_list = QListWidget()
         self.world_list.setStyleSheet("""
             QListWidget {
-                border: 1px solid #bdc3c7;
-                border-radius: 8px;
-                padding: 5px;
-                background-color: #f8f9fa;
+                border: 2px solid #daa520;
+                border-radius: 12px;
+                padding: 10px;
+                background-color: rgba(244, 228, 188, 0.9);
                 font-size: 14px;
+                font-family: 'Times New Roman', serif;
+                color: #654321;
+                box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1);
             }
             QListWidget::item {
-                padding: 10px;
-                border-bottom: 1px solid #ecf0f1;
-                background-color: white;
+                padding: 12px;
+                border-bottom: 1px solid rgba(218, 165, 32, 0.3);
+                background-color: rgba(222, 184, 135, 0.3);
                 border-radius: 6px;
                 margin: 2px;
+                color: #654321;
             }
             QListWidget::item:selected {
-                background-color: #3498db;
-                color: white;
+                background-color: rgba(205, 133, 63, 0.8);
+                color: #f4e4bc;
+                border: 2px solid #daa520;
+                box-shadow: 0 0 8px rgba(218, 165, 32, 0.6);
             }
             QListWidget::item:hover {
                 background-color: #ecf0f1;
@@ -184,10 +205,15 @@ class WorldOverviewPage(QWidget):
         button_frame = QFrame()
         button_frame.setStyleSheet("""
             QFrame {
-                background-color: #f8f9fa;
-                border-radius: 12px;
-                border: 1px solid #e1e5e9;
+                background-color: rgba(244, 228, 188, 0.9);
+                background-image: 
+                    radial-gradient(circle at 40% 60%, rgba(139, 69, 19, 0.08) 0%, transparent 50%);
+                border: 2px solid #daa520;
+                border-radius: 15px;
                 padding: 20px;
+                box-shadow: 
+                    0 0 12px rgba(139, 69, 19, 0.2),
+                    inset 0 0 8px rgba(0, 0, 0, 0.05);
             }
         """)
         button_layout = QHBoxLayout(button_frame)
@@ -195,38 +221,54 @@ class WorldOverviewPage(QWidget):
         self.new_world_button = QPushButton("✨ Create Sample World")
         self.new_world_button.setStyleSheet("""
             QPushButton {
-                background-color: #27ae60;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 12px 24px;
-                font-size: 14px;
+                background-color: #228b22;
+                background-image: linear-gradient(180deg, #32cd32 0%, #228b22 100%);
+                color: #f4e4bc;
+                border: 2px solid #006400;
+                border-radius: 12px;
+                padding: 14px 26px;
+                font-size: 16px;
                 font-weight: bold;
+                font-family: 'Times New Roman', serif;
+                box-shadow: 0 0 10px rgba(34, 139, 34, 0.4);
             }
             QPushButton:hover {
-                background-color: #229954;
+                background-color: #32cd32;
+                background-image: linear-gradient(180deg, #32cd32 0%, #006400 100%);
+                border-color: #228b22;
+                box-shadow: 0 0 15px rgba(34, 139, 34, 0.6);
             }
             QPushButton:pressed {
-                background-color: #1e8449;
+                background-color: #006400;
+                transform: translateY(1px);
+                box-shadow: 0 0 5px rgba(34, 139, 34, 0.8);
             }
         """)
 
         self.export_button = QPushButton("📤 Export Selected World")
         self.export_button.setStyleSheet("""
             QPushButton {
-                background-color: #3498db;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 12px 24px;
-                font-size: 14px;
+                background-color: #daa520;
+                background-image: linear-gradient(180deg, #daa520 0%, #cd853f 100%);
+                color: #654321;
+                border: 2px solid #a0522d;
+                border-radius: 12px;
+                padding: 14px 26px;
+                font-size: 16px;
                 font-weight: bold;
+                font-family: 'Times New Roman', serif;
+                box-shadow: 0 0 10px rgba(139, 69, 19, 0.4);
             }
             QPushButton:hover {
-                background-color: #2980b9;
+                background-color: #cd853f;
+                background-image: linear-gradient(180deg, #cd853f 0%, #a0522d 100%);
+                border-color: #8b4513;
+                box-shadow: 0 0 15px rgba(139, 69, 19, 0.6);
             }
             QPushButton:pressed {
-                background-color: #21618c;
+                background-color: #a0522d;
+                transform: translateY(1px);
+                box-shadow: 0 0 5px rgba(139, 69, 19, 0.8);
             }
         """)
 

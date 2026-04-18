@@ -33,9 +33,13 @@ class WorldHierarchyPage(QWidget):
         header_frame = QFrame()
         header_frame.setStyleSheet("""
             QFrame {
-                background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
-                border-radius: 12px;
-                padding: 20px;
+                background: linear-gradient(135deg, #daa520 0%, #cd853f 50%, #a0522d 100%);
+                border: 3px solid #654321;
+                border-radius: 15px;
+                padding: 25px;
+                box-shadow: 
+                    0 0 20px rgba(139, 69, 19, 0.6),
+                    inset 0 0 15px rgba(0, 0, 0, 0.2);
             }
         """)
         header_layout = QVBoxLayout(header_frame)
@@ -43,9 +47,11 @@ class WorldHierarchyPage(QWidget):
         title = QLabel("📚 World Hierarchy")
         title.setStyleSheet("""
             QLabel {
-                color: white;
-                font-size: 28px;
+                color: #f4e4bc;
+                font-size: 32px;
                 font-weight: bold;
+                font-family: 'Times New Roman', serif;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
                 margin: 0;
             }
         """)
@@ -54,8 +60,11 @@ class WorldHierarchyPage(QWidget):
         subtitle = QLabel("Browse your world state as a hierarchical tree.")
         subtitle.setStyleSheet("""
             QLabel {
-                color: rgba(255, 255, 255, 0.85);
-                font-size: 16px;
+                color: rgba(244, 228, 188, 0.9);
+                font-size: 18px;
+                font-family: 'Times New Roman', serif;
+                font-style: italic;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
                 margin: 0;
             }
         """)
@@ -66,10 +75,16 @@ class WorldHierarchyPage(QWidget):
         control_frame = QFrame()
         control_frame.setStyleSheet("""
             QFrame {
-                background-color: #f8f9fa;
-                border-radius: 12px;
-                border: 1px solid #e1e5e9;
-                padding: 18px;
+                background-color: rgba(244, 228, 188, 0.95);
+                background-image: 
+                    radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(160, 82, 45, 0.08) 0%, transparent 50%);
+                border: 2px solid #daa520;
+                border-radius: 15px;
+                padding: 20px;
+                box-shadow: 
+                    0 0 15px rgba(139, 69, 19, 0.3),
+                    inset 0 0 10px rgba(0, 0, 0, 0.1);
             }
         """)
         control_layout = QHBoxLayout(control_frame)
@@ -77,9 +92,10 @@ class WorldHierarchyPage(QWidget):
         world_label = QLabel("🌍 Select World:")
         world_label.setStyleSheet("""
             QLabel {
-                font-size: 14px;
+                font-size: 16px;
                 font-weight: bold;
-                color: #2c3e50;
+                color: #654321;
+                font-family: 'Times New Roman', serif;
                 margin-right: 12px;
             }
         """)
@@ -88,17 +104,26 @@ class WorldHierarchyPage(QWidget):
         self.world_selector.setMinimumWidth(260)
         self.world_selector.setStyleSheet("""
             QComboBox {
-                border: 1px solid #bdc3c7;
-                border-radius: 6px;
-                padding: 8px 12px;
-                background-color: white;
+                border: 2px solid #daa520;
+                border-radius: 8px;
+                padding: 10px 12px;
+                background-color: rgba(244, 228, 188, 0.9);
                 font-size: 14px;
+                font-family: 'Times New Roman', serif;
+                color: #654321;
             }
             QComboBox:hover {
-                border-color: #3498db;
+                border-color: #cd853f;
+                background-color: rgba(222, 184, 135, 0.9);
             }
             QComboBox::drop-down {
                 border: none;
+            }
+            QComboBox QAbstractItemView {
+                background-color: rgba(244, 228, 188, 0.95);
+                border: 1px solid #daa520;
+                selection-background-color: rgba(205, 133, 63, 0.8);
+                color: #654321;
             }
         """)
         self.world_selector.currentIndexChanged.connect(self.on_world_selected)
@@ -106,16 +131,26 @@ class WorldHierarchyPage(QWidget):
         self.refresh_button = QPushButton("🔄 Refresh")
         self.refresh_button.setStyleSheet("""
             QPushButton {
-                background-color: #3498db;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 10px 20px;
+                background-color: #daa520;
+                background-image: linear-gradient(180deg, #daa520 0%, #cd853f 100%);
+                color: #654321;
+                border: 2px solid #a0522d;
+                border-radius: 10px;
+                padding: 12px 20px;
                 font-size: 14px;
                 font-weight: bold;
+                font-family: 'Times New Roman', serif;
+                box-shadow: 0 0 8px rgba(139, 69, 19, 0.4);
             }
             QPushButton:hover {
-                background-color: #2980b9;
+                background-color: #cd853f;
+                background-image: linear-gradient(180deg, #cd853f 0%, #a0522d 100%);
+                border-color: #8b4513;
+                box-shadow: 0 0 12px rgba(139, 69, 19, 0.6);
+            }
+            QPushButton:pressed {
+                background-color: #a0522d;
+                transform: translateY(1px);
             }
         """)
         self.refresh_button.clicked.connect(self.refresh_world_selector)
@@ -123,16 +158,26 @@ class WorldHierarchyPage(QWidget):
         self.export_button = QPushButton("📤 Export World")
         self.export_button.setStyleSheet("""
             QPushButton {
-                background-color: #2ecc71;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 10px 20px;
+                background-color: #228b22;
+                background-image: linear-gradient(180deg, #32cd32 0%, #228b22 100%);
+                color: #f4e4bc;
+                border: 2px solid #006400;
+                border-radius: 10px;
+                padding: 12px 20px;
                 font-size: 14px;
                 font-weight: bold;
+                font-family: 'Times New Roman', serif;
+                box-shadow: 0 0 8px rgba(34, 139, 34, 0.4);
             }
             QPushButton:hover {
-                background-color: #27ae60;
+                background-color: #32cd32;
+                background-image: linear-gradient(180deg, #32cd32 0%, #006400 100%);
+                border-color: #228b22;
+                box-shadow: 0 0 12px rgba(34, 139, 34, 0.6);
+            }
+            QPushButton:pressed {
+                background-color: #006400;
+                transform: translateY(1px);
             }
         """)
         self.export_button.clicked.connect(self.export_selected_world)
@@ -140,16 +185,26 @@ class WorldHierarchyPage(QWidget):
         self.import_button = QPushButton("📥 Import World")
         self.import_button.setStyleSheet("""
             QPushButton {
-                background-color: #f39c12;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 10px 20px;
+                background-color: #8b4513;
+                background-image: linear-gradient(180deg, #a0522d 0%, #8b4513 100%);
+                color: #f4e4bc;
+                border: 2px solid #654321;
+                border-radius: 10px;
+                padding: 12px 20px;
                 font-size: 14px;
                 font-weight: bold;
+                font-family: 'Times New Roman', serif;
+                box-shadow: 0 0 8px rgba(139, 69, 19, 0.4);
             }
             QPushButton:hover {
-                background-color: #d68910;
+                background-color: #a0522d;
+                background-image: linear-gradient(180deg, #a0522d 0%, #654321 100%);
+                border-color: #3d2817;
+                box-shadow: 0 0 12px rgba(139, 69, 19, 0.6);
+            }
+            QPushButton:pressed {
+                background-color: #654321;
+                transform: translateY(1px);
             }
         """)
         self.import_button.clicked.connect(self.import_world_file)
@@ -166,10 +221,15 @@ class WorldHierarchyPage(QWidget):
         filter_frame = QFrame()
         filter_frame.setStyleSheet("""
             QFrame {
-                background-color: #f8f9fa;
+                background-color: rgba(244, 228, 188, 0.9);
+                background-image: 
+                    radial-gradient(circle at 30% 70%, rgba(139, 69, 19, 0.08) 0%, transparent 50%);
+                border: 2px solid #daa520;
                 border-radius: 12px;
-                border: 1px solid #e1e5e9;
-                padding: 14px;
+                padding: 16px;
+                box-shadow: 
+                    0 0 10px rgba(139, 69, 19, 0.2),
+                    inset 0 0 8px rgba(0, 0, 0, 0.05);
             }
         """)
         filter_layout = QHBoxLayout(filter_frame)
@@ -179,14 +239,22 @@ class WorldHierarchyPage(QWidget):
         self.search_input.setPlaceholderText("Filter hierarchy by name or type...")
         self.search_input.setStyleSheet("""
             QLineEdit {
-                border: 1px solid #bdc3c7;
-                border-radius: 6px;
-                padding: 10px;
+                border: 2px solid #daa520;
+                border-radius: 8px;
+                padding: 12px;
                 font-size: 14px;
-                background-color: white;
+                font-family: 'Times New Roman', serif;
+                background-color: rgba(244, 228, 188, 0.9);
+                color: #654321;
             }
             QLineEdit:focus {
-                border-color: #3498db;
+                border-color: #cd853f;
+                background-color: rgba(222, 184, 135, 0.9);
+                box-shadow: 0 0 8px rgba(218, 165, 32, 0.4);
+            }
+            QLineEdit::placeholder {
+                color: rgba(101, 67, 33, 0.6);
+                font-style: italic;
             }
         """)
         self.search_input.textChanged.connect(self.filter_tree)
@@ -194,8 +262,10 @@ class WorldHierarchyPage(QWidget):
         self.status_label = QLabel("")
         self.status_label.setStyleSheet("""
             QLabel {
-                color: #7f8c8d;
+                color: #8b4513;
                 font-size: 13px;
+                font-family: 'Times New Roman', serif;
+                font-style: italic;
             }
         """)
 
@@ -207,8 +277,14 @@ class WorldHierarchyPage(QWidget):
         self.summary_label.setWordWrap(True)
         self.summary_label.setStyleSheet("""
             QLabel {
-                color: #34495e;
-                font-size: 14px;
+                color: #654321;
+                font-size: 16px;
+                font-family: 'Times New Roman', serif;
+                font-style: italic;
+                background-color: rgba(244, 228, 188, 0.8);
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid rgba(218, 165, 32, 0.3);
             }
         """)
         layout.addWidget(self.summary_label)
@@ -216,9 +292,15 @@ class WorldHierarchyPage(QWidget):
         self.count_label = QLabel("")
         self.count_label.setStyleSheet("""
             QLabel {
-                color: #2c3e50;
-                font-size: 14px;
-                font-weight: 600;
+                color: #8b4513;
+                font-size: 16px;
+                font-weight: bold;
+                font-family: 'Times New Roman', serif;
+                background-color: rgba(244, 228, 188, 0.9);
+                padding: 8px 12px;
+                border-radius: 6px;
+                border: 1px solid rgba(218, 165, 32, 0.4);
+                margin-bottom: 10px;
             }
         """)
         layout.addWidget(self.count_label)
@@ -227,14 +309,39 @@ class WorldHierarchyPage(QWidget):
         self.hierarchy_tree.setHeaderLabels(["Type", "Name"])
         self.hierarchy_tree.setStyleSheet("""
             QTreeWidget {
-                border: 1px solid #bdc3c7;
-                border-radius: 8px;
-                background-color: white;
-                font-size: 13px;
+                border: 3px solid #daa520;
+                border-radius: 12px;
+                background-color: rgba(244, 228, 188, 0.95);
+                background-image: 
+                    radial-gradient(circle at 10% 10%, rgba(139, 69, 19, 0.05) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 90%, rgba(160, 82, 45, 0.03) 0%, transparent 40%);
+                font-size: 14px;
+                font-family: 'Times New Roman', serif;
+                color: #654321;
+                alternate-background-color: rgba(222, 184, 135, 0.3);
+                box-shadow: 
+                    0 0 15px rgba(139, 69, 19, 0.3),
+                    inset 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            QTreeWidget::item {
+                padding: 4px;
+                border-bottom: 1px solid rgba(218, 165, 32, 0.2);
             }
             QTreeWidget::item:selected {
-                background-color: #3498db;
-                color: white;
+                background-color: rgba(205, 133, 63, 0.8);
+                color: #f4e4bc;
+                border: 1px solid #daa520;
+            }
+            QTreeWidget::item:hover {
+                background-color: rgba(222, 184, 135, 0.5);
+            }
+            QHeaderView::section {
+                background-color: rgba(139, 69, 19, 0.8);
+                color: #f4e4bc;
+                padding: 8px;
+                border: 1px solid #daa520;
+                font-weight: bold;
+                font-family: 'Times New Roman', serif;
             }
         """)
         self.hierarchy_tree.setRootIsDecorated(True)
