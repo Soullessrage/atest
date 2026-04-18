@@ -24,6 +24,21 @@ class WorldOverviewViewModel:
     def list_worlds(self) -> List[World]:
         return self.persistence_service.list_worlds()
 
+    def list_worlds_with_counts(self) -> List[Dict]:
+        worlds = self.persistence_service.list_worlds()
+        result = []
+        for world in worlds:
+            settlement_count = len(self.persistence_service.list_settlements(world.id))
+            kingdom_count = len(self.persistence_service.list_kingdoms(world.id))
+            empire_count = len(self.persistence_service.list_empires(world.id))
+            result.append({
+                "world": world,
+                "settlement_count": settlement_count,
+                "kingdom_count": kingdom_count,
+                "empire_count": empire_count,
+            })
+        return result
+
     def get_world_by_id(self, world_id: str) -> Optional[World]:
         return self.persistence_service.load_world(world_id)
 

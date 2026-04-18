@@ -244,16 +244,17 @@ class WorldOverviewPage(QWidget):
 
     def refresh_world_list(self) -> None:
         self.world_list.clear()
-        worlds = self.view_model.list_worlds()
-        if not worlds:
+        worlds_data = self.view_model.list_worlds_with_counts()
+        if not worlds_data:
             self.world_list.addItem("No worlds created yet. Click 'Create Sample World' to get started! 🌟")
             self.render_world_details(None)
             return
 
-        for world in worlds:
-            settlement_count = len(world.settlements)
-            kingdom_count = len(world.kingdoms)
-            empire_count = len(world.empires)
+        for data in worlds_data:
+            world = data["world"]
+            settlement_count = data["settlement_count"]
+            kingdom_count = data["kingdom_count"]
+            empire_count = data["empire_count"]
             display_text = f"🏰 {world.name}\n"
             display_text += f"   Settlements: {settlement_count} | Kingdoms: {kingdom_count} | Empires: {empire_count}\n"
             display_text += f"   ID: {world.id}"

@@ -1,1 +1,1 @@
-"""View package for page and panel definitions.""
+"""View package for page and panel definitions."""
