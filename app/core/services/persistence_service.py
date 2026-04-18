@@ -59,6 +59,21 @@ class PersistenceService:
     def update_world(self, world: World) -> None:
         self.world_repository.update(world)
 
+    def update_continent(self, continent: Continent) -> None:
+        self.continent_repository.update(continent)
+
+    def update_empire(self, empire: Empire) -> None:
+        self.empire_repository.update(empire)
+
+    def update_kingdom(self, kingdom: Kingdom) -> None:
+        self.kingdom_repository.update(kingdom)
+
+    def update_region(self, region: Region) -> None:
+        self.region_repository.update(region)
+
+    def update_settlement(self, settlement: SettlementNode) -> None:
+        self.settlement_repository.update(settlement)
+
     def list_continents(self, world_id: str) -> list[Continent]:
         return self.continent_repository.list_by_world(world_id)
 

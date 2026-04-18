@@ -4,7 +4,7 @@ from typing import List
 
 from app.core.services.persistence_service import PersistenceService
 from app.domain.map.graph import MapEdge, MapNode, NodeGraph
-from app.domain.models.structure import SettlementNode
+from app.domain.models.structure import SettlementNode, World
 
 
 class MapViewModel:
@@ -26,7 +26,6 @@ class MapViewModel:
             )
             world_graph.add_node(node)
 
-        # Use connected_routes or neighbors if provided
         for settlement in settlements:
             for target_id in settlement.connected_routes:
                 if target_id in world_graph.nodes:
@@ -40,5 +39,5 @@ class MapViewModel:
 
         return world_graph
 
-    def available_worlds(self) -> List[str]:
-        return [world.id for world in self.persistence_service.list_worlds()]
+    def available_worlds(self) -> List[World]:
+        return self.persistence_service.list_worlds()

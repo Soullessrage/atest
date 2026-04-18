@@ -1,1 +1,1 @@
-"""Test package for DND world simulator.""
+"""Test package for DND world simulator."""

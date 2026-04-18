@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from PySide6.QtCore import QPointF, Qt
 from PySide6.QtGui import QBrush, QColor, QPen
 from PySide6.QtWidgets import (
     QComboBox,
@@ -15,8 +14,6 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
     QFrame,
-    QSpacerItem,
-    QSizePolicy,
 )
 
 from app.ui.viewmodels.map_viewmodel import MapViewModel
@@ -27,13 +24,13 @@ class MapViewPage(QWidget):
         super().__init__()
         self.view_model = view_model
         self._build_ui()
+        self.refresh_world_selector()
 
     def _build_ui(self) -> None:
         layout = QVBoxLayout(self)
         layout.setContentsMargins(30, 30, 30, 30)
         layout.setSpacing(20)
 
-        # Header section
         header_frame = QFrame()
         header_frame.setStyleSheet("""
             QFrame {
@@ -43,7 +40,7 @@ class MapViewPage(QWidget):
             }
         """)
         header_layout = QVBoxLayout(header_frame)
-        
+
         title = QLabel("🗺️ World Map")
         title.setStyleSheet("""
             QLabel {
@@ -54,7 +51,7 @@ class MapViewPage(QWidget):
             }
         """)
         header_layout.addWidget(title)
-        
+
         subtitle = QLabel("Explore the geography of your worlds")
         subtitle.setStyleSheet("""
             QLabel {
@@ -64,10 +61,9 @@ class MapViewPage(QWidget):
             }
         """)
         header_layout.addWidget(subtitle)
-        
+
         layout.addWidget(header_frame)
 
-        # Controls section
         controls_frame = QFrame()
         controls_frame.setStyleSheet("""
             QFrame {
@@ -78,7 +74,7 @@ class MapViewPage(QWidget):
             }
         """)
         controls_layout = QHBoxLayout(controls_frame)
-        
+
         world_label = QLabel("🌍 Select World:")
         world_label.setStyleSheet("""
             QLabel {
@@ -114,11 +110,9 @@ class MapViewPage(QWidget):
                 margin-right: 8px;
             }
         """)
-        self.world_selector.addItems(self.view_model.available_worlds())
         controls_layout.addWidget(self.world_selector)
-        
         controls_layout.addStretch()
-        
+
         self.refresh_button = QPushButton("🔄 Refresh Map")
         self.refresh_button.setStyleSheet("""
             QPushButton {
@@ -138,10 +132,9 @@ class MapViewPage(QWidget):
             }
         """)
         controls_layout.addWidget(self.refresh_button)
-        
+
         layout.addWidget(controls_frame)
 
-        # Map view section
         map_frame = QFrame()
         map_frame.setStyleSheet("""
             QFrame {
@@ -152,10 +145,10 @@ class MapViewPage(QWidget):
             }
         """)
         map_layout = QVBoxLayout(map_frame)
-        
+
         self.scene = QGraphicsScene(self)
         self.scene.setBackgroundBrush(QBrush(QColor("#f8f9fa")))
-        
+
         self.view = QGraphicsView(self.scene)
         self.view.setStyleSheet("""
             QGraphicsView {
@@ -165,16 +158,33 @@ class MapViewPage(QWidget):
         """)
         self.view.setRenderHint(self.view.renderHints())
         map_layout.addWidget(self.view)
-        
+
         layout.addWidget(map_frame, 1)
 
         self.refresh_button.clicked.connect(self.refresh_map)
 
+    def refresh_world_selector(self) -> None:
+        selected_id = self.world_selector.currentData()
+        self.world_selector.blockSignals(True)
+        self.world_selector.clear()
+        self.world_selector.addItem("Select a world...", None)
+        for world in self.view_model.available_worlds():
+            self.world_selector.addItem(world.name, world.id)
+        self.world_selector.blockSignals(False)
+        if selected_id is not None:
+            index = self.world_selector.findData(selected_id)
+            if index != -1:
+                self.world_selector.setCurrentIndex(index)
+
     def refresh_map(self) -> None:
-        if self.world_selector.currentText() == "":
+        self.refresh_world_selector()
+        world_id = self.world_selector.currentData()
+        if not world_id:
             return
-        graph = self.view_model.build_graph(self.world_selector.currentText())
+
+        graph = self.view_model.build_graph(world_id)
         self.scene.clear()
+
         for edge in graph.edges.values():
             source = graph.nodes.get(edge.source)
             target = graph.nodes.get(edge.target)

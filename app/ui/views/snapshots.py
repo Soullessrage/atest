@@ -1,12 +1,9 @@
 from __future__ import annotations
 
 from datetime import datetime
-from pathlib import Path
 
-from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QComboBox,
-    QFormLayout,
     QHBoxLayout,
     QLabel,
     QListWidget,
@@ -18,7 +15,6 @@ from PySide6.QtWidgets import (
     QSizePolicy,
 )
 
-from app.core.application import ApplicationContext
 from app.ui.viewmodels.snapshot_viewmodel import SnapshotViewModel
 
 
@@ -27,6 +23,7 @@ class SnapshotPage(QWidget):
         super().__init__()
         self.view_model = view_model
         self._build_ui()
+        self.refresh_world_selector()
         self.refresh_snapshot_list()
 
     def _build_ui(self) -> None:
@@ -34,7 +31,6 @@ class SnapshotPage(QWidget):
         layout.setContentsMargins(30, 30, 30, 30)
         layout.setSpacing(20)
 
-        # Header section
         header_frame = QFrame()
         header_frame.setStyleSheet("""
             QFrame {
@@ -44,7 +40,7 @@ class SnapshotPage(QWidget):
             }
         """)
         header_layout = QVBoxLayout(header_frame)
-        
+
         title = QLabel("📸 Snapshots")
         title.setStyleSheet("""
             QLabel {
@@ -55,7 +51,7 @@ class SnapshotPage(QWidget):
             }
         """)
         header_layout.addWidget(title)
-        
+
         subtitle = QLabel("Save and restore your world states")
         subtitle.setStyleSheet("""
             QLabel {
@@ -65,10 +61,9 @@ class SnapshotPage(QWidget):
             }
         """)
         header_layout.addWidget(subtitle)
-        
+
         layout.addWidget(header_frame)
 
-        # World selector section
         selector_frame = QFrame()
         selector_frame.setStyleSheet("""
             QFrame {
@@ -79,7 +74,7 @@ class SnapshotPage(QWidget):
             }
         """)
         selector_layout = QVBoxLayout(selector_frame)
-        
+
         selector_title = QLabel("🌍 Select World for Snapshots")
         selector_title.setStyleSheet("""
             QLabel {
@@ -115,12 +110,9 @@ class SnapshotPage(QWidget):
                 margin-right: 8px;
             }
         """)
-        self.world_selector.addItems([world.name for world in self.view_model.available_worlds()])
         selector_layout.addWidget(self.world_selector)
-        
         layout.addWidget(selector_frame)
 
-        # Snapshot list section
         list_frame = QFrame()
         list_frame.setStyleSheet("""
             QFrame {
@@ -131,7 +123,7 @@ class SnapshotPage(QWidget):
             }
         """)
         list_layout = QVBoxLayout(list_frame)
-        
+
         list_title = QLabel("📋 Available Snapshots")
         list_title.setStyleSheet("""
             QLabel {
@@ -168,10 +160,8 @@ class SnapshotPage(QWidget):
             }
         """)
         list_layout.addWidget(self.snapshot_list)
-        
         layout.addWidget(list_frame)
 
-        # Button section
         button_frame = QFrame()
         button_frame.setStyleSheet("""
             QFrame {
@@ -182,7 +172,7 @@ class SnapshotPage(QWidget):
             }
         """)
         button_layout = QHBoxLayout(button_frame)
-        
+
         self.create_button = QPushButton("📸 Create Snapshot")
         self.create_button.setStyleSheet("""
             QPushButton {
@@ -201,7 +191,7 @@ class SnapshotPage(QWidget):
                 background-color: #1e8449;
             }
         """)
-        
+
         self.restore_button = QPushButton("🔄 Restore Selected")
         self.restore_button.setStyleSheet("""
             QPushButton {
@@ -220,18 +210,28 @@ class SnapshotPage(QWidget):
                 background-color: #a93226;
             }
         """)
-        
+
         button_layout.addWidget(self.create_button)
         button_layout.addStretch()
         button_layout.addWidget(self.restore_button)
-        
         layout.addWidget(button_frame)
 
         self.create_button.clicked.connect(self.create_snapshot)
         self.restore_button.clicked.connect(self.restore_selected_snapshot)
-        
-        # Add spacer
         layout.addItem(QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding))
+
+    def refresh_world_selector(self) -> None:
+        selected_id = self.world_selector.currentData()
+        self.world_selector.blockSignals(True)
+        self.world_selector.clear()
+        self.world_selector.addItem("Select a world...", None)
+        for world in self.view_model.available_worlds():
+            self.world_selector.addItem(world.name, world.id)
+        self.world_selector.blockSignals(False)
+        if selected_id is not None:
+            index = self.world_selector.findData(selected_id)
+            if index != -1:
+                self.world_selector.setCurrentIndex(index)
 
     def refresh_snapshot_list(self) -> None:
         self.snapshot_list.clear()
@@ -240,13 +240,11 @@ class SnapshotPage(QWidget):
             self.snapshot_list.addItem(f"{snapshot.name} ({snapshot.id}) - {created}")
 
     def create_snapshot(self) -> None:
-        current_world = self.world_selector.currentText()
-        if not current_world:
+        self.refresh_world_selector()
+        world_id = self.world_selector.currentData()
+        if not world_id:
             return
-        selected = next((w for w in self.view_model.available_worlds() if w.name == current_world), None)
-        if not selected:
-            return
-        self.view_model.create_snapshot(selected.id, f"Snapshot for {selected.name}")
+        self.view_model.create_snapshot(world_id, f"Snapshot for {self.world_selector.currentText()}")
         self.refresh_snapshot_list()
 
     def restore_selected_snapshot(self) -> None:
