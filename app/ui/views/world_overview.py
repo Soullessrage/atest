@@ -93,45 +93,148 @@ class WorldOverviewPage(QWidget):
         content_layout = QHBoxLayout(content_frame)
         content_layout.setSpacing(20)
 
+        # Left panel: World list and info
+        left_panel = QFrame()
+        left_panel.setStyleSheet("""
+            QFrame {
+                background-color: rgba(244, 228, 188, 0.9);
+                border: 2px solid #daa520;
+                border-radius: 12px;
+                padding: 15px;
+            }
+        """)
+        left_layout = QVBoxLayout(left_panel)
+        left_layout.setSpacing(10)
+
+        world_list_label = QLabel("🌍 Available Worlds")
+        world_list_label.setStyleSheet("""
+            QLabel {
+                font-size: 16px;
+                font-weight: bold;
+                color: #654321;
+                font-family: 'Times New Roman', serif;
+                margin-bottom: 5px;
+            }
+        """)
+        left_layout.addWidget(world_list_label)
+
         self.world_list = QListWidget()
         self.world_list.setStyleSheet("""
             QListWidget {
                 border: 2px solid #daa520;
-                border-radius: 12px;
-                padding: 10px;
+                border-radius: 8px;
+                padding: 5px;
                 background-color: rgba(244, 228, 188, 0.9);
                 font-size: 14px;
                 font-family: 'Times New Roman', serif;
                 color: #654321;
-                box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1);
+                box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
             }
             QListWidget::item {
-                padding: 12px;
+                padding: 8px;
                 border-bottom: 1px solid rgba(218, 165, 32, 0.3);
                 background-color: rgba(222, 184, 135, 0.3);
-                border-radius: 6px;
-                margin: 2px;
+                border-radius: 4px;
+                margin: 1px;
                 color: #654321;
             }
             QListWidget::item:selected {
                 background-color: rgba(205, 133, 63, 0.8);
                 color: #f4e4bc;
                 border: 2px solid #daa520;
-                box-shadow: 0 0 8px rgba(218, 165, 32, 0.6);
+                box-shadow: 0 0 6px rgba(218, 165, 32, 0.6);
             }
             QListWidget::item:hover {
-                background-color: #ecf0f1;
+                background-color: rgba(222, 184, 135, 0.5);
             }
         """)
-        content_layout.addWidget(self.world_list, 1)
+        left_layout.addWidget(self.world_list, 1)
+
+        # World info panel
+        self.world_info_frame = QFrame()
+        self.world_info_frame.setStyleSheet("""
+            QFrame {
+                background-color: rgba(244, 228, 188, 0.95);
+                border: 2px solid #cd853f;
+                border-radius: 10px;
+                padding: 12px;
+                margin-top: 10px;
+            }
+        """)
+        info_layout = QVBoxLayout(self.world_info_frame)
+        info_layout.setSpacing(8)
+
+        info_title = QLabel("📖 World Information")
+        info_title.setStyleSheet("""
+            QLabel {
+                font-size: 14px;
+                font-weight: bold;
+                color: #654321;
+                font-family: 'Times New Roman', serif;
+            }
+        """)
+        info_layout.addWidget(info_title)
+
+        self.world_info_label = QLabel("Select a world to view details")
+        self.world_info_label.setWordWrap(True)
+        self.world_info_label.setStyleSheet("""
+            QLabel {
+                color: #654321;
+                font-size: 12px;
+                font-family: 'Times New Roman', serif;
+                background-color: rgba(222, 184, 135, 0.5);
+                padding: 8px;
+                border-radius: 6px;
+                min-height: 60px;
+            }
+        """)
+        info_layout.addWidget(self.world_info_label)
+
+        self.edit_world_button = QPushButton("✏️ Edit World Info")
+        self.edit_world_button.setStyleSheet("""
+            QPushButton {
+                background-color: #daa520;
+                background-image: linear-gradient(180deg, #daa520 0%, #cd853f 100%);
+                color: #654321;
+                border: 2px solid #a0522d;
+                border-radius: 8px;
+                padding: 8px 16px;
+                font-size: 12px;
+                font-weight: bold;
+                font-family: 'Times New Roman', serif;
+                box-shadow: 0 0 6px rgba(139, 69, 19, 0.3);
+            }
+            QPushButton:hover {
+                background-color: #cd853f;
+                background-image: linear-gradient(180deg, #cd853f 0%, #a0522d 100%);
+                border-color: #8b4513;
+                box-shadow: 0 0 8px rgba(139, 69, 19, 0.5);
+            }
+            QPushButton:pressed {
+                background-color: #a0522d;
+                transform: translateY(1px);
+            }
+        """)
+        self.edit_world_button.clicked.connect(self.edit_world_info)
+        info_layout.addWidget(self.edit_world_button)
+
+        left_layout.addWidget(self.world_info_frame)
+
+        content_layout.addWidget(left_panel, 1)
 
         self.detail_panel = QFrame()
         self.detail_panel.setStyleSheet("""
             QFrame {
-                background-color: #f8f9fa;
-                border-radius: 12px;
-                border: 1px solid #dfe6e9;
+                background-color: rgba(244, 228, 188, 0.95);
+                background-image: 
+                    radial-gradient(circle at 25% 25%, rgba(139, 69, 19, 0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 75% 75%, rgba(160, 82, 45, 0.06) 0%, transparent 50%);
+                border: 2px solid #daa520;
+                border-radius: 15px;
                 padding: 20px;
+                box-shadow: 
+                    0 0 15px rgba(139, 69, 19, 0.3),
+                    inset 0 0 10px rgba(0, 0, 0, 0.1);
             }
         """)
         detail_layout = QVBoxLayout(self.detail_panel)
@@ -142,8 +245,10 @@ class WorldOverviewPage(QWidget):
             QLabel {
                 font-size: 20px;
                 font-weight: bold;
-                color: #2c3e50;
+                color: #654321;
+                font-family: 'Times New Roman', serif;
                 margin-bottom: 10px;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
             }
         """)
         detail_layout.addWidget(self.detail_title)
@@ -152,8 +257,14 @@ class WorldOverviewPage(QWidget):
         self.detail_summary.setWordWrap(True)
         self.detail_summary.setStyleSheet("""
             QLabel {
-                color: #34495e;
-                font-size: 14px;
+                color: #654321;
+                font-size: 16px;
+                font-family: 'Times New Roman', serif;
+                font-style: italic;
+                background-color: rgba(244, 228, 188, 0.8);
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid rgba(218, 165, 32, 0.3);
             }
         """)
         detail_layout.addWidget(self.detail_summary)
@@ -162,9 +273,15 @@ class WorldOverviewPage(QWidget):
         self.detail_counts.setWordWrap(True)
         self.detail_counts.setStyleSheet("""
             QLabel {
-                color: #2c3e50;
-                font-size: 14px;
-                font-weight: 600;
+                color: #8b4513;
+                font-size: 16px;
+                font-weight: bold;
+                font-family: 'Times New Roman', serif;
+                background-color: rgba(244, 228, 188, 0.9);
+                padding: 8px 12px;
+                border-radius: 6px;
+                border: 1px solid rgba(218, 165, 32, 0.4);
+                margin-bottom: 10px;
             }
         """)
         detail_layout.addWidget(self.detail_counts)
@@ -173,8 +290,13 @@ class WorldOverviewPage(QWidget):
         self.detail_entities.setWordWrap(True)
         self.detail_entities.setStyleSheet("""
             QLabel {
-                color: #34495e;
-                font-size: 13px;
+                color: #654321;
+                font-size: 14px;
+                font-family: 'Times New Roman', serif;
+                background-color: rgba(244, 228, 188, 0.7);
+                padding: 8px;
+                border-radius: 6px;
+                border: 1px solid rgba(218, 165, 32, 0.2);
             }
         """)
         detail_layout.addWidget(self.detail_entities)
@@ -183,14 +305,39 @@ class WorldOverviewPage(QWidget):
         self.hierarchy_tree.setHeaderLabels(["Type", "Name"])
         self.hierarchy_tree.setStyleSheet("""
             QTreeWidget {
-                border: 1px solid #bdc3c7;
-                border-radius: 8px;
-                background-color: white;
-                font-size: 13px;
+                border: 3px solid #daa520;
+                border-radius: 12px;
+                background-color: rgba(244, 228, 188, 0.95);
+                background-image: 
+                    radial-gradient(circle at 10% 10%, rgba(139, 69, 19, 0.05) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 90%, rgba(160, 82, 45, 0.03) 0%, transparent 40%);
+                font-size: 14px;
+                font-family: 'Times New Roman', serif;
+                color: #654321;
+                alternate-background-color: rgba(222, 184, 135, 0.3);
+                box-shadow: 
+                    0 0 15px rgba(139, 69, 19, 0.3),
+                    inset 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            QTreeWidget::item {
+                padding: 4px;
+                border-bottom: 1px solid rgba(218, 165, 32, 0.2);
             }
             QTreeWidget::item:selected {
-                background-color: #3498db;
-                color: white;
+                background-color: rgba(205, 133, 63, 0.8);
+                color: #f4e4bc;
+                border: 1px solid #daa520;
+            }
+            QTreeWidget::item:hover {
+                background-color: rgba(222, 184, 135, 0.5);
+            }
+            QHeaderView::section {
+                background-color: rgba(139, 69, 19, 0.8);
+                color: #f4e4bc;
+                padding: 8px;
+                border: 1px solid #daa520;
+                font-weight: bold;
+                font-family: 'Times New Roman', serif;
             }
         """)
         self.hierarchy_tree.setRootIsDecorated(True)
@@ -290,6 +437,7 @@ class WorldOverviewPage(QWidget):
         if not worlds_data:
             self.world_list.addItem("No worlds created yet. Click 'Create Sample World' to get started! 🌟")
             self.render_world_details(None)
+            self.update_world_info(None)
             return
 
         for data in worlds_data:
@@ -310,15 +458,18 @@ class WorldOverviewPage(QWidget):
         current_item = self.world_list.currentItem()
         if not current_item:
             self.render_world_details(None)
+            self.update_world_info(None)
             return
 
         world_id = current_item.data(Qt.UserRole)
         if not world_id:
             self.render_world_details(None)
+            self.update_world_info(None)
             return
 
         details = self.view_model.load_world_details(world_id)
         self.render_world_details(details)
+        self.update_world_info(details)
 
     def render_world_details(self, details: dict | None) -> None:
         if details is None or details.get("world") is None:
@@ -431,3 +582,50 @@ class WorldOverviewPage(QWidget):
 
         target = Path.cwd() / f"world_export_{world.name.replace(' ', '_')}_{world.id}.json"
         self.view_model.export_full_world(world, target)
+
+    def update_world_info(self, details: dict | None) -> None:
+        if details is None or details.get("world") is None:
+            self.world_info_label.setText("Select a world to view details")
+            self.edit_world_button.setEnabled(False)
+            return
+
+        world = details["world"]
+        continents = details["continents"]
+        empires = details["empires"]
+        kingdoms = details["kingdoms"]
+        regions = details["regions"]
+        settlements = details["settlements"]
+
+        info_text = f"<b>{world.name}</b><br>"
+        info_text += f"ID: {world.id}<br>"
+        info_text += f"Created: {world.created_at.strftime('%Y-%m-%d') if hasattr(world, 'created_at') else 'Unknown'}<br><br>"
+        info_text += f"Continents: {len(continents)}<br>"
+        info_text += f"Empires: {len(empires)}<br>"
+        info_text += f"Kingdoms: {len(kingdoms)}<br>"
+        info_text += f"Regions: {len(regions)}<br>"
+        info_text += f"Settlements: {len(settlements)}"
+
+        self.world_info_label.setText(info_text)
+        self.edit_world_button.setEnabled(True)
+
+    def edit_world_info(self) -> None:
+        current_item = self.world_list.currentItem()
+        if not current_item:
+            return
+
+        world_id = current_item.data(Qt.UserRole)
+        if not world_id:
+            return
+
+        world = self.view_model.get_world_by_id(world_id)
+        if not world:
+            return
+
+        # TODO: Implement world editing dialog
+        # For now, just show a message
+        from PySide6.QtWidgets import QMessageBox
+        QMessageBox.information(
+            self,
+            "Edit World",
+            f"World editing dialog for '{world.name}' would open here.\n\nThis feature will be implemented next."
+        )

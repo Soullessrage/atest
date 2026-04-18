@@ -21,6 +21,7 @@ from app.ui.viewmodels.snapshot_viewmodel import SnapshotViewModel
 from app.ui.views.dashboard import DashboardPage
 from app.ui.views.map_view import MapViewPage
 from app.ui.views.snapshots import SnapshotPage
+from app.ui.views.world_generator import WorldGeneratorPage
 from app.ui.views.world_hierarchy import WorldHierarchyPage
 from app.ui.views.world_overview import WorldOverviewPage
 
@@ -89,6 +90,7 @@ class WorldSimMainWindow(QMainWindow):
         # Add navigation items with icons
         nav_items = [
             ("🏠 Dashboard", "Dashboard"),
+            ("🧙‍♂️ Generator", "Generator"),
             ("🌍 Worlds", "Worlds"),
             ("📚 Hierarchy", "Hierarchy"),
             ("🗺️ Map", "Map"),
@@ -122,6 +124,14 @@ class WorldSimMainWindow(QMainWindow):
         """)
         
         self.page_stack.addWidget(DashboardPage(DashboardViewModel(self.context.persistence_service)))
+        self.page_stack.addWidget(
+            WorldGeneratorPage(
+                WorldOverviewViewModel(
+                    persistence_service=self.context.persistence_service,
+                    import_export_service=self.context.import_export_service,
+                )
+            )
+        )
         self.page_stack.addWidget(
             WorldOverviewPage(
                 WorldOverviewViewModel(
