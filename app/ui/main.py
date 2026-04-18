@@ -19,6 +19,7 @@ from app.ui.viewmodels.world_viewmodel import WorldOverviewViewModel
 from app.ui.viewmodels.map_viewmodel import MapViewModel
 from app.ui.viewmodels.snapshot_viewmodel import SnapshotViewModel
 from app.ui.viewmodels.simulation_viewmodel import SimulationViewModel
+from app.ui.viewmodels.campaign_viewmodel import CampaignViewModel
 from app.ui.views.dashboard import DashboardPage
 from app.ui.views.map_view import MapViewPage
 from app.ui.views.snapshots import SnapshotPage
@@ -26,6 +27,10 @@ from app.ui.views.world_generator import WorldGeneratorPage
 from app.ui.views.world_hierarchy import WorldHierarchyPage
 from app.ui.views.world_overview import WorldOverviewPage
 from app.ui.views.simulation import SimulationPage
+from app.ui.views.campaign_dashboard import CampaignDashboardPage
+from app.ui.views.party_management import PartyManagementPage
+from app.ui.views.quest_tracker import QuestTrackerPage
+from app.ui.views.session_journal import SessionJournalPage
 
 
 class WorldSimMainWindow(QMainWindow):
@@ -98,6 +103,10 @@ class WorldSimMainWindow(QMainWindow):
             ("🎲 Simulation", "Simulation"),
             ("🗺️ Map", "Map"),
             ("📸 Snapshots", "Snapshots"),
+            ("📋 Campaigns", "Campaigns"),
+            ("👥 Parties", "Parties"),
+            ("📜 Quests", "Quests"),
+            ("📖 Journal", "Journal"),
         ]
         
         for icon_text, name in nav_items:
@@ -161,6 +170,16 @@ class WorldSimMainWindow(QMainWindow):
         )
         self.page_stack.addWidget(MapViewPage(MapViewModel(self.context.persistence_service)))
         self.page_stack.addWidget(SnapshotPage(SnapshotViewModel(self.context)))
+        
+        # Campaign pages
+        campaign_viewmodel = CampaignViewModel(
+            campaign_service=self.context.campaign_service,
+            persistence_service=self.context.persistence_service,
+        )
+        self.page_stack.addWidget(CampaignDashboardPage(campaign_viewmodel, self.context.persistence_service))
+        self.page_stack.addWidget(PartyManagementPage(campaign_viewmodel))
+        self.page_stack.addWidget(QuestTrackerPage(campaign_viewmodel))
+        self.page_stack.addWidget(SessionJournalPage(campaign_viewmodel))
         
         layout.addWidget(self.page_stack, 1)
 

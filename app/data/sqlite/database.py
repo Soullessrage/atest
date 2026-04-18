@@ -251,6 +251,143 @@ CREATE TABLE IF NOT EXISTS event_instances (
     FOREIGN KEY(definition_id) REFERENCES event_definitions(id) ON DELETE CASCADE,
     FOREIGN KEY(world_id) REFERENCES worlds(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS campaigns (
+    id TEXT PRIMARY KEY,
+    world_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT,
+    game_master_name TEXT,
+    current_date TEXT,
+    session_count INTEGER NOT NULL DEFAULT 0,
+    notes TEXT DEFAULT '',
+    party_id TEXT,
+    active INTEGER NOT NULL DEFAULT 1,
+    difficulty_level TEXT DEFAULT 'medium',
+    house_rules TEXT DEFAULT '[]',
+    custom_settings TEXT DEFAULT '{}',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    locked INTEGER NOT NULL DEFAULT 0,
+    metadata TEXT DEFAULT '{}',
+    FOREIGN KEY(world_id) REFERENCES worlds(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS parties (
+    id TEXT PRIMARY KEY,
+    campaign_id TEXT NOT NULL,
+    world_id TEXT NOT NULL,
+    name TEXT,
+    description TEXT,
+    current_settlement_id TEXT,
+    character_ids TEXT DEFAULT '[]',
+    party_gold INTEGER NOT NULL DEFAULT 0,
+    party_inventory TEXT DEFAULT '[]',
+    founded_date TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    locked INTEGER NOT NULL DEFAULT 0,
+    metadata TEXT DEFAULT '{}',
+    FOREIGN KEY(campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE,
+    FOREIGN KEY(world_id) REFERENCES worlds(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS characters (
+    id TEXT PRIMARY KEY,
+    campaign_id TEXT NOT NULL,
+    party_id TEXT NOT NULL,
+    player_name TEXT,
+    name TEXT NOT NULL,
+    description TEXT,
+    character_class TEXT,
+    race TEXT,
+    background TEXT,
+    level INTEGER NOT NULL DEFAULT 1,
+    experience INTEGER NOT NULL DEFAULT 0,
+    hit_points INTEGER NOT NULL DEFAULT 10,
+    max_hit_points INTEGER NOT NULL DEFAULT 10,
+    armor_class INTEGER NOT NULL DEFAULT 10,
+    alignment TEXT DEFAULT 'Neutral',
+    personality_traits TEXT DEFAULT '',
+    ideals TEXT DEFAULT '',
+    bonds TEXT DEFAULT '',
+    flaws TEXT DEFAULT '',
+    ability_scores TEXT DEFAULT '{}',
+    skills TEXT DEFAULT '[]',
+    proficiencies TEXT DEFAULT '[]',
+    equipment TEXT DEFAULT '[]',
+    spells TEXT DEFAULT '[]',
+    feats TEXT DEFAULT '[]',
+    backstory TEXT DEFAULT '',
+    current_location TEXT,
+    gold INTEGER NOT NULL DEFAULT 0,
+    status TEXT DEFAULT 'alive',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    locked INTEGER NOT NULL DEFAULT 0,
+    metadata TEXT DEFAULT '{}',
+    FOREIGN KEY(campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE,
+    FOREIGN KEY(party_id) REFERENCES parties(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS encounters (
+    id TEXT PRIMARY KEY,
+    campaign_id TEXT NOT NULL,
+    world_id TEXT NOT NULL,
+    party_id TEXT NOT NULL,
+    encounter_type TEXT DEFAULT 'combat',
+    location TEXT,
+    difficulty TEXT DEFAULT 'medium',
+    enemies TEXT DEFAULT '[]',
+    objectives TEXT DEFAULT '[]',
+    reward_xp INTEGER NOT NULL DEFAULT 0,
+    reward_gold INTEGER NOT NULL DEFAULT 0,
+    completed INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    locked INTEGER NOT NULL DEFAULT 0,
+    metadata TEXT DEFAULT '{}',
+    FOREIGN KEY(campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE,
+    FOREIGN KEY(world_id) REFERENCES worlds(id) ON DELETE CASCADE,
+    FOREIGN KEY(party_id) REFERENCES parties(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS quests (
+    id TEXT PRIMARY KEY,
+    campaign_id TEXT NOT NULL,
+    party_id TEXT NOT NULL,
+    giver_npc_id TEXT,
+    title TEXT NOT NULL,
+    description TEXT,
+    objectives TEXT DEFAULT '[]',
+    reward_xp INTEGER NOT NULL DEFAULT 0,
+    reward_gold INTEGER NOT NULL DEFAULT 0,
+    reward_items TEXT DEFAULT '[]',
+    status TEXT DEFAULT 'available',
+    difficulty TEXT DEFAULT 'medium',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    locked INTEGER NOT NULL DEFAULT 0,
+    metadata TEXT DEFAULT '{}',
+    FOREIGN KEY(campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE,
+    FOREIGN KEY(party_id) REFERENCES parties(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS journal_entries (
+    id TEXT PRIMARY KEY,
+    campaign_id TEXT NOT NULL,
+    session_date TEXT NOT NULL,
+    session_number INTEGER NOT NULL DEFAULT 0,
+    content TEXT DEFAULT '',
+    party_location TEXT,
+    events TEXT DEFAULT '[]',
+    notes TEXT DEFAULT '',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    locked INTEGER NOT NULL DEFAULT 0,
+    metadata TEXT DEFAULT '{}',
+    FOREIGN KEY(campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE
+);
 """
 
 

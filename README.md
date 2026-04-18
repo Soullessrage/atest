@@ -47,3 +47,16 @@ A long-term desktop application for procedural Dungeons & Dragons world creation
 3. Add simulation results display with population stats and event logs.
 4. Implement simulation history and progress tracking.
 5. Integrate simulation controls into main application navigation.
+
+## Phase 6: Advanced World Generation and Procedural Content
+
+1. Create WorldGenerationService for sophisticated procedural world generation.
+2. Implement WorldGenerationParams to control generation parameters from UI.
+3. Build geographic generation (continents, regions distributed by parameters).
+4. Add political structure generation (empires, kingdoms, settlements based on settings).
+5. Generate interconnected settlement networks with trade routes.
+6. Create initial NPC populations with racial distributions.
+7. Add support for world generation presets and templates.
+8. Integrate generation progress UI and result visualization.
+
+**Current Status**: Core generation pipeline, geographic/political structure, settlements, NPCs, and routes all implemented. Parameter system scales complexity. Main task: integrate UI and add visualization.

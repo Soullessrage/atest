@@ -55,6 +55,24 @@ class PersistenceService:
     def load_world(self, world_id: str) -> Optional[World]:
         return self.world_repository.get(world_id)
 
+    def load_continent(self, continent_id: str) -> Optional[Continent]:
+        return self.continent_repository.get(continent_id)
+
+    def load_empire(self, empire_id: str) -> Optional[Empire]:
+        return self.empire_repository.get(empire_id)
+
+    def load_kingdom(self, kingdom_id: str) -> Optional[Kingdom]:
+        return self.kingdom_repository.get(kingdom_id)
+
+    def load_region(self, region_id: str) -> Optional[Region]:
+        return self.region_repository.get(region_id)
+
+    def load_settlement(self, settlement_id: str) -> Optional[SettlementNode]:
+        return self.settlement_repository.get(settlement_id)
+
+    def load_npc(self, npc_id: str) -> Optional[NPC]:
+        return self.npc_repository.get(npc_id)
+
     def list_worlds(self) -> list[World]:
         return self.world_repository.list()
 
@@ -105,6 +123,9 @@ class PersistenceService:
 
     def list_event_instances(self, world_id: str) -> list[EventInstance]:
         return self.event_instance_repository.list_by_world(world_id)
+
+    def list_races(self) -> list[Race]:
+        return self.race_repository.list()
 
     def create_continent(self, continent: Continent) -> None:
         self.continent_repository.add(continent)
