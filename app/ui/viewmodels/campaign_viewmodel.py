@@ -199,17 +199,10 @@ class CampaignViewModel(QObject):
                 self.error_occurred.emit("No party selected")
                 return
 
-            # Convert string to CharacterClass enum
-            try:
-                char_class_enum = CharacterClass[char_class.upper()]
-            except KeyError:
-                self.error_occurred.emit(f"Invalid character class: {char_class}")
-                return
-
             character = self.campaign_service.create_character(
                 party_id=party_id,
                 name=name,
-                char_class=char_class_enum,
+                char_class=char_class,
                 level=level,
                 race=race,
             )
@@ -358,17 +351,10 @@ class CampaignViewModel(QObject):
                 self.error_occurred.emit("No campaign selected")
                 return
 
-            # Convert string to EncounterType enum
-            try:
-                encounter_type_enum = EncounterType[encounter_type.upper()]
-            except KeyError:
-                self.error_occurred.emit(f"Invalid encounter type: {encounter_type}")
-                return
-
             encounter = self.campaign_service.create_encounter(
                 campaign_id=campaign_id,
                 name=name,
-                encounter_type=encounter_type_enum,
+                encounter_type=encounter_type,
                 difficulty=difficulty,
                 description=description,
             )
